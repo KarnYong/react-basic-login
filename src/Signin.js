@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import swal from 'sweetalert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,9 +66,17 @@ export default function Signin() {
       password
     });
     if ('token' in response) {
-      sessionStorage.setItem('token', response['token']);
-      sessionStorage.setItem('username', username);
-      window.location.href = "/profile";
+      swal("Signed in!", "Welcome", "success", {
+        buttons: false,
+        timer: 2000,
+      })
+      .then((value) => {
+        sessionStorage.setItem('token', response['token']);
+        sessionStorage.setItem('username', username);
+        window.location.href = "/profile";
+      });
+    } else {
+      swal("Sign in failed!", "Try again", "error");
     }
   }
 
