@@ -5,7 +5,7 @@ import Signin from './Signin';
 import Profile from './Profile';
 
 function getToken() {
-  const token = sessionStorage.getItem('token');
+  const token = localStorage.getItem('accessToken');
   return token;
 }
 

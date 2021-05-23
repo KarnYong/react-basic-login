@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Avatar from '@material-ui/core/Avatar';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 
@@ -20,20 +21,32 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  media: {
+    height: '90vh',
+  },
+  large: {
+    width: theme.spacing(20),
+    height: theme.spacing(20),
+  },
 }));
 
 export default function Profile() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
-  const username = sessionStorage.getItem('username');
+  const user = JSON.parse(localStorage.getItem('user'));
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleLogout = () => {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     window.location.href = "/";
   };
 
@@ -46,9 +59,13 @@ export default function Profile() {
           </Typography>
             <div>
             <IconButton onClick={handleMenu} color="inherit">
-              <AccountCircle />
+              <Avatar src={user.avatar} />
             </IconButton>
-            <Menu id="menu-appbar" anchorEl={anchorEl} open={open}>
+            <Menu id="menu-appbar" 
+              anchorEl={anchorEl} 
+              open={open}
+              onClose={handleClose}
+            >
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
           </div>
@@ -56,11 +73,12 @@ export default function Profile() {
       </AppBar>
       <Card className={classes.root} variant="outlined">
         <CardContent>
-          <Typography className={classes.title} color="textSecondary" gutterBottom>
-            Welcome {username}
+          <Avatar src={user.avatar} className={classes.large} />
+          <Typography variant="h5">
+          Welcome {user.fname} {user.lname}
           </Typography>
         </CardContent>
-        </Card>
+      </Card>
     </div>
   );
 }

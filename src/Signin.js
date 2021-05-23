@@ -16,11 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
   },
   paper: {
     margin: theme.spacing(8, 4),
@@ -33,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -42,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 async function loginUser(credentials) {
-  return fetch('https://reqres.in/api/login', {
+  return fetch('https://www.mecallapi.com/api/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -63,14 +59,14 @@ export default function Signin() {
       username,
       password
     });
-    if ('token' in response) {
+    if ('accessToken' in response) {
       swal("Signed in!", "Welcome", "success", {
         buttons: false,
         timer: 2000,
       })
       .then((value) => {
-        sessionStorage.setItem('token', response['token']);
-        sessionStorage.setItem('username', username);
+        localStorage.setItem('accessToken', response['accessToken']);
+        localStorage.setItem('user', JSON.stringify(response['user']));
         window.location.href = "/profile";
       });
     } else {
@@ -79,10 +75,10 @@ export default function Signin() {
   }
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item xs={false} md={7} className={classes.image} />
+      <Grid item xs={12} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
@@ -97,10 +93,8 @@ export default function Signin() {
               required
               fullWidth
               id="email"
-              label="Email Address"
               name="email"
-              autoComplete="email"
-              autoFocus
+              label="Email Address"
               onChange={e => setUserName(e.target.value)}
             />
             <TextField
@@ -108,11 +102,10 @@ export default function Signin() {
               margin="normal"
               required
               fullWidth
+              id="password"
               name="password"
               label="Password"
               type="password"
-              id="password"
-              autoComplete="current-password"
               onChange={e => setPassword(e.target.value)}
             />
             <Button
