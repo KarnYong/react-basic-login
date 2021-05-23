@@ -60,7 +60,7 @@ export default function Signin() {
       password
     });
     if ('accessToken' in response) {
-      swal("Signed in!", "Welcome", "success", {
+      swal("Success", response.message, "success", {
         buttons: false,
         timer: 2000,
       })
@@ -70,7 +70,7 @@ export default function Signin() {
         window.location.href = "/profile";
       });
     } else {
-      swal("Sign in failed!", "Try again", "error");
+      swal("Failed", response.message, "error");
     }
   }
 

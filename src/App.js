@@ -4,13 +4,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Signin from './Signin';
 import Profile from './Profile';
 
-function getToken() {
-  const token = localStorage.getItem('accessToken');
-  return token;
-}
-
 function App() {
-  const token = getToken();
+  const token = localStorage.getItem('accessToken');
 
   if(!token) {
     return <Signin />
