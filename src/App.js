@@ -15,10 +15,10 @@ function App() {
     <div className="wrapper">
       <BrowserRouter>
         <Switch>
-          <Route path="/">
+          <Route path="/profile">
             <Profile />
           </Route>
-          <Route path="/profile">
+          <Route path="/">
             <Profile />
           </Route>
         </Switch>
